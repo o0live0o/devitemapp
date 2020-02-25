@@ -1,0 +1,26 @@
+<template>
+        <el-form >
+            <el-form-item >
+                <el-input placeholder="用户名" v-model="userName"></el-input>
+            </el-form-item>
+            <el-form-item >
+                <el-input placeholder="密码" v-model="password" show-password></el-input>
+            </el-form-item>
+           <el-button class="btn-primary" :loading="true" type="primary">登  录</el-button>
+        </el-form>
+</template>
+<script>
+export default {
+    data () {
+        return {
+            userName:"",
+            password:""
+        }
+    }
+}
+</script>
+<style scoped>
+.btn-primary{
+    width: 100%;
+}
+</style>
