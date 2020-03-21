@@ -6,7 +6,7 @@
             <el-form-item >
                 <el-input placeholder="密码" v-model="password" show-password></el-input>
             </el-form-item>
-           <el-button class="btn-primary" :loading="true" type="primary">登  录</el-button>
+           <el-button class="btn-primary" @click="login" type="primary">登  录</el-button>
         </el-form>
 </template>
 <script>
@@ -15,6 +15,12 @@ export default {
         return {
             userName:"",
             password:""
+        }
+    },
+    methods:{
+        login:function(){
+            console.log('登录')
+            this.$router.push({ path:'/main'  })
         }
     }
 }
