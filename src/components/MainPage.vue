@@ -20,7 +20,7 @@
               </template>
               <template v-for="children in menu.children">
                 <router-link :key="children.path" :to="menu.path +'/' +children.path">
-                  <el-menu-item>{{children.menuName}}</el-menu-item>
+                  <el-menu-item>{{ children.menuName }}</el-menu-item>
                 </router-link>
               </template>
             </el-submenu>
@@ -86,6 +86,7 @@ export default {
     async getRoles() {
       const val = await getMenus();
       this.menus = val.trees;
+      console.log(val)
     },
     hasChildren(item) {
       return item.children.length > 0;
