@@ -1,20 +1,17 @@
-import axios from 'axios'
-
-const instance = axios.create({
-    baseURL: 'http://118.25.102.202:8601'
-});
+import request from '../utils/request' 
 
 export const login = ({
     userAccount,
     pwd
 }) => {
-    console.log(userAccount+pwd)
-    instance.post('login?userAccount=Administrator&pwd=123456').then(function (response) {
-        console.log('success')
+    request.post('login',null, {
+        params: {
+            userAccount: userAccount,
+            pwd: pwd
+        }
+    }).then(response => {
         console.log(response)
-    }).catch(function (error) {
-        
-        console.log('error')
-        console.log(error)
+    }).catch( error => {
+        console.log(error.response)
     });
 }

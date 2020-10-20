@@ -10,6 +10,7 @@
         </el-form>
 </template>
 <script>
+import {login} from '../../api/api'
 export default {
     data () {
         return {
@@ -19,8 +20,9 @@ export default {
     },
     methods:{
         login:function(){
+            login({userAccount:'Administrator',pwd:'123456'})
             // this.$router.push({ path:'/main'  })
-            this.$router.replace("/main")
+            //this.$router.replace("/main")
         }
     }
 }

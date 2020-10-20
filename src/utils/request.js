@@ -1,12 +1,30 @@
 import axios from 'axios'
 
+axios.defaults.baseURL = 'http://81.68.122.9:8601';
+
 const service = axios.create({
-    baseURL: 'http://118.25.102.202:8601'
+    baseURL: 'http://81.68.122.9:8601'
 })
 
+//请求拦截器
+service.interceptors.request.use(
+    config => {
+        config.headers.common['Bear'] = '123456789';
+        console.log(config);
+        return config;
+    },
+    error => {
+        return Promise.reject(error);
+    }
+)
+
+//响应拦截器
 service.interceptors.response.use(
     response=>{
-        return response.data
+        return response.data;
+    },
+    error => {
+        return Promise.reject(error);
     }
 )
 
