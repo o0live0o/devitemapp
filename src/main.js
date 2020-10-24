@@ -7,6 +7,7 @@ import './plugins/element.js'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.min'
 import App from './App.vue'
+import store from './store'
 
 Vue.use(Element,{size:'small'})
 Vue.config.productionTip = false
@@ -20,5 +21,6 @@ const router = new VueRouter({
 
 new Vue({
   router,
+  store,
   render: h => h(App),
 }).$mount('#app')

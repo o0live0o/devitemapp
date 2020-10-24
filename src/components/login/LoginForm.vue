@@ -11,6 +11,7 @@
 </template>
 <script>
 import {login} from '../../api/api'
+import {getUser} from '../../api/user'
 export default {
     data () {
         return {
@@ -19,10 +20,15 @@ export default {
         }
     },
     methods:{
-        login:function(){
-            login({userAccount:'Administrator',pwd:'123456'})
-            // this.$router.push({ path:'/main'  })
+        login: async function(){
+            console.log(this.$store.state.message)
+            console.log(1111)
+            await login({userAccount:'Administrator',pwd:'123456'})
+            //this.$router.push({ path:'/main'  })
             //this.$router.replace("/main")
+            var data1 = await getUser('bc9e5615-17d5-4ca2-adf9-200f903e0a7d');
+            console.log(data1)
+          
         }
     }
 }
