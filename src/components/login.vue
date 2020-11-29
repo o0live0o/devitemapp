@@ -5,15 +5,15 @@
         <img src="../assets/logo.png" />
       </div>
       <el-form ref="loginForm" :model="formData" :rules="loginRules" class="login_form">
-        <el-form-item prop="userName">
+        <el-form-item prop="userAccount">
           <el-input
-            v-model="formData.userName"
+            v-model="formData.userAccount"
             prefix-icon="el-icon-user-solid"
           ></el-input>
         </el-form-item>
-        <el-form-item prop="password">
+        <el-form-item prop="pwd">
           <el-input
-            v-model="formData.password"
+            v-model="formData.pwd"
             prefix-icon="el-icon-lock"
           ></el-input>
         </el-form-item>
@@ -26,15 +26,16 @@
   </div>
 </template>
 <script>
+import { login } from '../api/api'
 export default {
   data() {
     return {
       formData: {
-        userName: "admin",
-        password: "123456",
+        userAccount: "administrator",
+        pwd: "123456",
       },
       loginRules: {
-        userName: [
+        userAccount: [
           { required: true, message: "登录名不能为空", trigger: "blur" },
           {
             min: 3,
@@ -57,8 +58,13 @@ export default {
   },
   methods: {
       login () {
-          this.$refs.loginForm.validate((valid) => {
+          this.$refs.loginForm.validate(async (valid) => {
               if(!valid) return
+              let ret = await login(this.formData)
+              if(ret.status === 400) return this.$message.error(ret.message)
+              this.$message.success('登录成功')
+              window.sessionStorage.setItem('token',ret.token)
+              this.$router.push('/home')
           })
       },
       reset () {

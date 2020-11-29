@@ -38,8 +38,19 @@ Vue.use(VueRouter)
 const router = new VueRouter ({
     routes: [
         { path: '/', redirect: '/login' },
-        { path: '/login', component: () => import('@/components/login.vue') }
+        { path: '/login', component: () => import('@/components/login.vue') },
+        { path: '/home', component: () => import('@/components/home.vue') }
     ]
+})
+
+router.beforeEach((to, from, next) => {
+    if(to.path === '/login') return next()
+    const token = window.sessionStorage.getItem('token')
+    if(!token) 
+    {
+        return next('/login')
+    }
+    next()
 })
 
 export default router

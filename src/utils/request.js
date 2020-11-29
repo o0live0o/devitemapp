@@ -9,7 +9,7 @@ const service = axios.create({
 //请求拦截器
 service.interceptors.request.use(
     config => {
-        config.headers.common['Bear'] = '123456789';
+        config.headers.Authorization = 'Bearer ' + window.sessionStorage.getItem('token')
         console.log(config);
         return config;
     },

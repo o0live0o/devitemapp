@@ -4,14 +4,14 @@ export const login = ({
     userAccount,
     pwd
 }) => {
-    request.post('login',null, {
+    return request.post('login',null, {
         params: {
             userAccount: userAccount,
             pwd: pwd
         }
     }).then(response => {
-        console.log(response)
+        return response
     }).catch( error => {
-        console.log(error.response)
+        return error.response.data
     });
 }
