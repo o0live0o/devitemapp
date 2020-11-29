@@ -19,8 +19,8 @@ export default {
     },
     methods:{
         login:function(){
-            console.log('登录')
-            this.$router.push({ path:'/main'  })
+            // this.$router.push({ path:'/main'  })
+            this.$router.replace("/main")
         }
     }
 }
