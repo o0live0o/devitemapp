@@ -38,8 +38,8 @@ Vue.use(VueRouter)
 const router = new VueRouter ({
     routes: [
         { path: '/', redirect: '/login' },
-        { path: '/login', component: () => import('@/components/login.vue') },
-        { path: '/home', component: () => import('@/components/home.vue') }
+        { path: '/login', component: () => import('@/components/login/login.vue') },
+        { path: '/home', component: () => import('@/components/home/home.vue') }
     ]
 })
 

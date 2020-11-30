@@ -2,7 +2,7 @@
   <el-container class="home-container">
     <el-header>
       <div>
-        <img src="../assets/logo.png" alt="" />
+        <img src="../../assets/logo.png" alt="" />
         <span>物品管理系统</span>
       </div>
       <el-button type="primary" @click="exit">退出</el-button>
@@ -11,7 +11,7 @@
       <el-aside width="200px">
         <el-menu
           default-active="2"
-          class="el-menu-vertical-demo"
+          class="el-menu-vertical"
           background-color="#333744"
           text-color="#fff"
           active-text-color="#ffd04b"
@@ -20,13 +20,13 @@
 
             <template slot="title">
               <i class="el-icon-location"></i>
-              <span>导航一</span>
+              <span></span>
             </template>
             
             <el-menu-item index="1-4-1">
               <template slot="title">
                 <i class="el-icon-location"></i>
-                <span>导航一</span>
+                <span></span>
               </template>
             </el-menu-item>
 
@@ -38,14 +38,22 @@
   </el-container>
 </template>
 <script>
+import  {getMenus} from '../../api/menu'
 export default {
+   created: function () {
+     this.loadMenu()
+   },
   methods: {
-    exit() {
+    exit () {
       window.sessionStorage.removeItem("token");
       this.$router.push("/login");
     },
-  },
-};
+    async loadMenu () {
+      let ret = await getMenus()
+      console.log(ret)
+    }
+  }
+}
 </script>
 <style lang="less" scoped>
 .home-container {
@@ -78,5 +86,9 @@ export default {
 
 .el-main {
   background-color: #eaedf5;
+}
+
+.el-menu-vertical {
+  border: 0;
 }
 </style>

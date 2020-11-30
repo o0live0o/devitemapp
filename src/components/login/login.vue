@@ -2,7 +2,7 @@
   <div class="login">
     <div class="login_box">
       <div class="img_box">
-        <img src="../assets/logo.png" />
+        <img src="../../assets/logo.png" />
       </div>
       <el-form ref="loginForm" :model="formData" :rules="loginRules" class="login_form">
         <el-form-item prop="userAccount">
@@ -15,6 +15,7 @@
           <el-input
             v-model="formData.pwd"
             prefix-icon="el-icon-lock"
+            show-password
           ></el-input>
         </el-form-item>
         <el-form-item class="btns">
@@ -26,7 +27,7 @@
   </div>
 </template>
 <script>
-import { login } from '../api/api'
+import { login } from '../../api/api'
 export default {
   data() {
     return {
