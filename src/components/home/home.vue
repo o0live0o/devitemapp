@@ -15,45 +15,77 @@
           background-color="#333744"
           text-color="#fff"
           active-text-color="#ffd04b"
+          router
         >
-          <el-submenu index="1">
-
+          <template v-for="menu in menus">
+            <template v-if="hasChildren(menu)">
+              <el-submenu :index="menu.path" :key="menu.path">
+                <template slot="title">
+                  <i :class="menu.icon"></i>
+                  <span>{{ menu.menuName }}</span>
+                </template>
+                <template v-for="child in menu.children">
+                  <el-menu-item :index="child.path" :key="child.path">
+                    <template slot="title">
+                      <i :class="child.icon"></i>
+                      <span>{{ child.menuName }}</span>
+                    </template>
+                  </el-menu-item>
+                </template>
+              </el-submenu>
+            </template>
+            <template v-else>
+              <el-menu-item :index="menu.path" :key="menu.path">
+                <i :class="menu.icon"></i>
+                <span slot="title">{{ menu.menuName }}</span>
+              </el-menu-item>
+            </template>
+          </template>
+          <!-- <el-submenu index="menu.path" v-for="menu in menus" :key="menu.path">
             <template slot="title">
               <i class="el-icon-location"></i>
-              <span></span>
+              <span>{{ menu.menuName }}</span>
             </template>
-            
             <el-menu-item index="1-4-1">
               <template slot="title">
                 <i class="el-icon-location"></i>
                 <span></span>
               </template>
             </el-menu-item>
-
-          </el-submenu>
+          </el-submenu> -->
         </el-menu>
       </el-aside>
-      <el-main>Main</el-main>
+      <el-main>
+        <router-view></router-view>
+      </el-main>
     </el-container>
   </el-container>
 </template>
 <script>
-import  {getMenus} from '../../api/menu'
+import { getMenus } from "../../api/menu";
 export default {
-   created: function () {
-     this.loadMenu()
-   },
+  data() {
+    return {
+      menus: [],
+    };
+  },
+  created: function () {
+    this.loadMenu();
+  },
   methods: {
-    exit () {
+    exit() {
       window.sessionStorage.removeItem("token");
       this.$router.push("/login");
     },
-    async loadMenu () {
-      let ret = await getMenus()
-      console.log(ret)
-    }
-  }
-}
+    async loadMenu() {
+      let { trees } = await getMenus();
+      this.menus = trees;
+    },
+    hasChildren(item) {
+      return item.children.length > 0;
+    },
+  },
+};
 </script>
 <style lang="less" scoped>
 .home-container {
