@@ -1,4 +1,5 @@
 import axios from 'axios'
+import router from "../router";
 
 axios.defaults.baseURL = 'http://81.68.122.9:8601';
 
@@ -24,6 +25,11 @@ service.interceptors.response.use(
         return response.data;
     },
     error => {
+        if(error && error.response && error.response.status){
+            if(error.response.status === 401){
+                router.push('/login')
+            }
+        }
         return Promise.reject(error);
     }
 )
