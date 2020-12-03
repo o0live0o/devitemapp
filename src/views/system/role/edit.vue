@@ -10,8 +10,12 @@ export default {
             require: true,
             type: Boolean
         }
+    },
+    data () {
+        return {
+            
+        }
     }
-    
 }
 </script>
 <style lang="less" scoped>
