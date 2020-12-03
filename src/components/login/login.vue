@@ -2,7 +2,7 @@
   <div class="login">
     <div class="login_box">
       <div class="img_box">
-        <img src="../../assets/logo.png" />
+        <img src="~_assets/logo.png" />
       </div>
       <el-form ref="loginForm" :model="formData" :rules="loginRules" class="login_form">
         <el-form-item prop="userAccount">
@@ -27,7 +27,7 @@
   </div>
 </template>
 <script>
-import { login } from '../../api/api'
+import { login } from '_api/api'
 export default {
   data() {
     return {

@@ -2,7 +2,7 @@
   <el-container class="home-container">
     <el-header>
       <div>
-        <img src="../../assets/logo.png" alt="" />
+        <img src="~_assets/logo.png" alt="" />
         <span>物品管理系统</span>
       </div>
       <el-button type="primary" @click="exit">退出</el-button>
@@ -65,7 +65,7 @@
 <script>
   import {
     getMenus
-  } from "../../api/menu";
+  } from '_api/menu';
   export default {
     data() {
       return {
@@ -74,6 +74,7 @@
     },
     created: function () {
       this.loadMenu();
+      
     },
     methods: {
       exit() {

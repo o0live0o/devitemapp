@@ -13,13 +13,10 @@ export const getUsers = (pageSize,pageIndex) => {
 }
 
 export const getUser = (userId) => {
-    let url = 'users'
+    let url = 'users/'+userId
     return request({
         method: 'GET',
-        url,
-        params: {
-            userId
-        }
+        url
     })
 }
 

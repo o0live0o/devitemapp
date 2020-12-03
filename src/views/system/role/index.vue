@@ -14,11 +14,11 @@
                 <el-table-column label="备注"></el-table-column>
                 <el-table-column label="操作">
                     <template>
-                        <el-row>
-                            <el-col :span="8"><el-button type="primary" icon="el-icon-edit"></el-button></el-col>
-                            <el-col :span="8"><el-button type="primary" icon="el-icon-edit"></el-button></el-col>
-                            <el-col :span="8"><el-button type="primary" icon="el-icon-edit"></el-button></el-col>
-                        </el-row>
+                        
+                        <el-button type="primary" icon="el-icon-edit"></el-button>
+                        <el-button type="primary" icon="el-icon-edit"></el-button>
+                           <el-button type="primary" icon="el-icon-edit"></el-button>
+                      
                     </template>
                 </el-table-column>
             </el-table>
@@ -26,7 +26,7 @@
     </div>
 </template>
 <script>
-    import { getRoles } from '../../../api/role'
+    import { getRoles } from '_api/role'
     export default {
         data () {
             return {
@@ -43,6 +43,7 @@
             async getRoles () {
                 let roles = await getRoles(20,1)
                 this.roles = roles
+                console.log(roles)
             }
         }
     }
