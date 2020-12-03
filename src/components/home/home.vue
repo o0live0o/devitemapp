@@ -9,14 +9,8 @@
     </el-header>
     <el-container>
       <el-aside width="200px">
-        <el-menu
-          default-active="2"
-          class="el-menu-vertical"
-          background-color="#333744"
-          text-color="#fff"
-          active-text-color="#ffd04b"
-          router
-        >
+        <el-menu default-active="2" class="el-menu-vertical" background-color="#333744" text-color="#fff"
+          active-text-color="#ffd04b" router>
           <template v-for="menu in menus">
             <template v-if="hasChildren(menu)">
               <el-submenu :index="menu.path" :key="menu.path">
@@ -56,71 +50,89 @@
         </el-menu>
       </el-aside>
       <el-main>
+        <el-card class="nav-head">
+          <el-breadcrumb separator-class="el-icon-arrow-right">
+            <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
+            <el-breadcrumb-item>人员管理</el-breadcrumb-item>
+            <el-breadcrumb-item>人员列表</el-breadcrumb-item>
+          </el-breadcrumb>
+        </el-card>
         <router-view></router-view>
       </el-main>
     </el-container>
   </el-container>
 </template>
 <script>
-import { getMenus } from "../../api/menu";
-export default {
-  data() {
-    return {
-      menus: [],
-    };
-  },
-  created: function () {
-    this.loadMenu();
-  },
-  methods: {
-    exit() {
-      window.sessionStorage.removeItem("token");
-      this.$router.push("/login");
+  import {
+    getMenus
+  } from "../../api/menu";
+  export default {
+    data() {
+      return {
+        menus: [],
+      };
     },
-    async loadMenu() {
-      let { trees } = await getMenus();
-      this.menus = trees;
+    created: function () {
+      this.loadMenu();
     },
-    hasChildren(item) {
-      return item.children.length > 0;
+    methods: {
+      exit() {
+        window.sessionStorage.removeItem("token");
+        this.$router.push("/login");
+      },
+      async loadMenu() {
+        let {
+          trees
+        } = await getMenus();
+        this.menus = trees;
+      },
+      hasChildren(item) {
+        return item.children.length > 0;
+      },
     },
-  },
-};
+  };
 </script>
 <style lang="less" scoped>
-.home-container {
-  height: 100%;
-}
+  .home-container {
+    height: 100%;
+  }
 
-.el-header {
-  background-color: #373d43;
-  display: flex;
-  justify-content: space-between;
-  padding-left: 0;
-  align-items: center;
-  color: #fff;
-  font-size: 20px;
-  > div {
+  .el-header {
+    background-color: #373d43;
     display: flex;
+    justify-content: space-between;
+    padding-left: 0;
     align-items: center;
-    span {
-      margin-left: 10px;
+    color: #fff;
+    font-size: 20px;
+
+    >div {
+      display: flex;
+      align-items: center;
+
+      span {
+        margin-left: 10px;
+      }
+    }
+
+    img {
+      width: 30px;
     }
   }
-  img {
-    width: 30px;
+
+  .el-aside {
+    background-color: #333744;
   }
-}
 
-.el-aside {
-  background-color: #333744;
-}
+  .el-main {
+    background-color: #eaedf5;
+  }
 
-.el-main {
-  background-color: #eaedf5;
-}
+  .el-menu-vertical {
+    border: 0;
+  }
 
-.el-menu-vertical {
-  border: 0;
-}
+  .nav-head {
+    margin-bottom: 20px;
+  }
 </style>
