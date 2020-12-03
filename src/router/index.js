@@ -47,6 +47,7 @@ const router = new VueRouter({
                 { path: '/people', component: () => import('@/components/user/user.vue') },
                 { path: '/404', component: () => import('@/components/404/index.vue') },
                 { path: '/welcome', component: () => import('@/components/welcome.vue') },
+                { path: '/about', component: () => import('@/views/system/role/index.vue') },
             ]
         },
         { path: '*', redirect: '/404' }
