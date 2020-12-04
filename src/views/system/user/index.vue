@@ -33,31 +33,20 @@
         <el-table-column label="操作">
           <template slot-scope="scope">
                 <el-button type="primary" @click="edit(scope.row.id)"><i class="el-icon-edit-outline"></i></el-button>
-                <el-button type="success">
-                  <i class="el-icon-view"></i></el-button>
-                <el-button type="danger"><i class="el-icon-delete"></i></el-button>     
+                <el-button type="success" @click="test()"><i class="el-icon-view"></i></el-button>
+                <el-button type="danger" @click="deleteInfo(scope.row.id)"><i class="el-icon-delete"></i></el-button>     
           </template>
         </el-table-column>
       </el-table>
-      <!-- <el-dialog :title="dialogProp.title" :visible.sync="dialogProp.showEditDialog">
-        <el-form>
-            <el-form-item label="姓名"> <el-input></el-input></el-form-item>
-            <el-form-item label="账号"> <el-input></el-input></el-form-item>
-            <el-form-item label="性别"> <el-input></el-input></el-form-item>
-            <el-form-item label="年龄"> <el-input></el-input></el-form-item>
-            <el-form-item label="电子邮件"> <el-input></el-input></el-form-item>
-            <el-form-item label="电话号码"> <el-input></el-input></el-form-item>
-            <el-form-item label="备注"> <el-input></el-input></el-form-item>
-        </el-form>
-        </el-dialog> -->
-      <edit-user :showDialog="showEdit" @closedialog="closeDialog" :uesrInfo="dialogProp.editUserInfo"></edit-user>
+      <!--编辑框-->
+      <edit-user :showDialog.sync="dialogProp.showEditDialog"
+      :id.sync="dialogProp.id" @refresh="getUsers()"></edit-user>
 
     </el-card>
   </div>
 </template>
 <script>
-  import {getUsers} from '_api/user';
-  import { getUser} from '_api/user';
+  import {getUsers,deleteUser} from '_api/user';
   import EditUser from './edit'
   export default {
     components:{
@@ -75,13 +64,8 @@
         //编辑框基本属性
         dialogProp: {
           showEditDialog: false,
-          title: '用户信息',
-          editUserInfo:{
-            name:''
-          }
+          id: null
         },
-        showEdit: false
-        
       };
     },
     methods: {
@@ -90,15 +74,15 @@
         this.users = ret;
       },
       async edit (id) {
-        let ret = await getUser(id)
-        this.dialogProp.editUserInfo = ret;
-        this.showEdit = true
-      
+        this.dialogProp.id = id
+        this.dialogProp.showEditDialog = true
       },
-      closeDialog (){
-        console.log('22233')
-        this.showEdit = false
+      async deleteInfo (id) {
+        await deleteUser(id)
+        this.$message.success('删除成功')
+        this.getUsers()
       }
+
     },
   };
 </script>

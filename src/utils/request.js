@@ -1,5 +1,6 @@
 import axios from 'axios'
 import router from "../router";
+import { Message } from 'element-ui'
 
 axios.defaults.baseURL = 'http://81.68.122.9:8601';
 
@@ -29,7 +30,9 @@ service.interceptors.response.use(
             if(error.response.status === 401){
                 router.push('/login')
             }
+            Message.error({ message: error.response.status + ":" + error.response.statusText, offset:300})
         }
+        
         return Promise.reject(error);
     }
 )

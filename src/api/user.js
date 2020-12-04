@@ -20,3 +20,29 @@ export const getUser = (userId) => {
     })
 }
 
+export const deleteUser = (userId) => {
+    let url = 'users/' + userId
+    return request({
+        method: 'DELETE',
+        url
+    })
+}
+
+export const addUser = (user) => {
+    let url = 'users'
+    return request({
+        method: 'POST',
+        data:user,
+        url
+    })
+}
+
+export const editUser = (id,user) => {
+    let url = 'users/'+id
+    return request({
+        method: 'PUT',
+        data: user,
+        url
+    })
+}
+
