@@ -1,12 +1,13 @@
 <template>
   <div>
     <el-card class="box-card">
-      <el-row>
+      <el-row :gutter="20">
         <el-col :span="6">
           <el-input v-model="queryCondition.name" placeholder="请输入名字">
             <el-button slot="append" icon="el-icon-search"></el-button>
           </el-input>
         </el-col>
+        <el-col :span="2"><el-button type="primary" circle @click="addUser"><i class="el-icon-document-add"></i></el-button></el-col>
       </el-row>
       <!--表格-->
       <el-table :data="users" style="width: 100%">
@@ -71,16 +72,23 @@
     methods: {
       async getUsers() {
         let ret = await getUsers();
-        this.users = ret;
+        if(ret && ret.code === 200)
+           this.users = ret.data;
       },
-      async edit (id) {
+      edit (id) {
         this.dialogProp.id = id
         this.dialogProp.showEditDialog = true
       },
       async deleteInfo (id) {
-        await deleteUser(id)
-        this.$message.success('删除成功')
-        this.getUsers()
+        let ret = await deleteUser(id)
+        if(ret && ret.code === 200){
+            this.$message.success('删除成功')
+            this.getUsers()
+        }
+      },
+      addUser () {
+        this.dialogProp.id = ''
+        this.dialogProp.showEditDialog = true
       }
 
     },

@@ -23,17 +23,30 @@ service.interceptors.request.use(
 //响应拦截器
 service.interceptors.response.use(
     response=>{
-        return response.data;
+        return {
+            code: 200,
+            data: response.data 
+        }
+        // return response.data;
     },
     error => {
+        let message = ''
         if(error && error.response && error.response.status){
+            message = error.response.statusText
             if(error.response.status === 401){
-                router.push('/login')
+                return router.push('/login')
             }
-            Message.error({ message: error.response.status + ":" + error.response.statusText, offset:300})
+            message += '-' + error.response.data.message
+
         }
-        
-        return Promise.reject(error);
+
+        Message.error({ message: error.response.status + ":" + message, offset: 300 })
+
+        return {
+            code: error.response.status,
+            message:message
+        }
+        // return Promise.reject(error);
     }
 )
 

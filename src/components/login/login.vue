@@ -62,10 +62,13 @@ export default {
           this.$refs.loginForm.validate(async (valid) => {
               if(!valid) return
               let ret = await login(this.formData)
-              if(ret.status === 400) return this.$message.error(ret.message)
-              this.$message.success('登录成功')
-              window.sessionStorage.setItem('token',ret.token)
-              this.$router.push('/home')
+
+              if(ret.code === 200){
+                this.$message.success('登录成功')
+                window.sessionStorage.setItem('token',ret.data.token)
+                return this.$router.push('/home')
+              }
+              // return this.$message.error(ret.code + ":" +ret.message)
           })
       },
       reset () {

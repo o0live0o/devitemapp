@@ -4,12 +4,12 @@
             <el-row :gutter="20" type="flex" justify="center">
                 <el-col :pull="2" :span="8">
                     <el-form-item label-width="80px" label="姓名">
-                        <el-input v-model="user.name"></el-input>
+                        <el-input v-model="user.name" :disabled=isEdit></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="8">
                     <el-form-item label-width="80px" label="账号">
-                        <el-input v-model="user.account"></el-input>
+                        <el-input v-model="user.account" :disabled=isEdit></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -86,6 +86,7 @@
             return {
                 showEditDialog: false,
                 dialogTitle: '',
+                isEdit: false,
                 user: {}
             }
         },
@@ -97,32 +98,45 @@
             },
             id: {
                 handler(newVal) {
-                    if(!newVal || newVal === ''){
+                    if (!newVal || newVal === '') {
                         this.dialogTitle = '新增用户'
-                    }else {
+                        this.isEdit = false
+                    } else {
                         this.dialogTitle = '编辑用户'
+                        this.isEdit = true
                     }
                 }
             }
         },
         methods: {
             async open() {
-                let ret = await getUser(this.id)
-                console.log(ret)
-                this.user = ret
+                if (this.id !== '') {
+                    let ret = await getUser(this.id)
+                    if (ret.code === 200) {
+                        this.user = ret.data
+                    } else {
+                        this.onClose()
+                    }
+                }
             },
             close() {
+                this.user = {}
                 this.$emit('update:showDialog', false)
                 this.$emit('update:id', '')
             },
             async onSave() {
+                let ret;
                 if (!this.id || this.id === '') {
-                    await addUser(this.user)
+                    ret = await addUser(this.user)
                 } else {
-                    await editUser(this.id, this.user)
+                    ret = await editUser(this.id, this.user)
                 }
-                this.$message.success('保存成功')
-                this.$emit('refresh')
+
+                if (ret && ret.code === 200) {
+                    this.$message.success('保存成功')
+                    this.$emit('refresh')
+                    this.onClose()
+                }
             },
             onClose() {
                 this.showEditDialog = false

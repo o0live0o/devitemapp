@@ -82,10 +82,10 @@
         this.$router.push("/login");
       },
       async loadMenu() {
-        let {
-          trees
-        } = await getMenus();
-        this.menus = trees;
+        var ret  = await getMenus();
+        if(ret.code == 200){
+           this.menus = ret.data.trees;
+        }
       },
       hasChildren(item) {
         return item.children.length > 0;
