@@ -1,7 +1,7 @@
 import request from '../utils/request'
 
 export const getUsers = (pageSize,pageIndex) => {
-    let url = 'users'
+    let url = 'user'
     return request({
         method: 'GET',
         url: url,
@@ -13,7 +13,7 @@ export const getUsers = (pageSize,pageIndex) => {
 }
 
 export const getUser = (userId) => {
-    let url = 'users/'+userId
+    let url = 'user/'+userId
     return request({
         method: 'GET',
         url
@@ -21,7 +21,7 @@ export const getUser = (userId) => {
 }
 
 export const deleteUser = (userId) => {
-    let url = 'users/' + userId
+    let url = 'user/' + userId
     return request({
         method: 'DELETE',
         url
@@ -29,7 +29,7 @@ export const deleteUser = (userId) => {
 }
 
 export const addUser = (user) => {
-    let url = 'users'
+    let url = 'user'
     return request({
         method: 'POST',
         data:user,
@@ -38,7 +38,7 @@ export const addUser = (user) => {
 }
 
 export const editUser = (id,user) => {
-    let url = 'users/'+id
+    let url = 'user/'+id
     return request({
         method: 'PUT',
         data: user,

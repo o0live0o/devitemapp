@@ -1,14 +1,14 @@
 <template>
     <el-dialog :title="dialogTitle" ref="editDialogRef" :visible.sync="showEditDialog" @close="close" @open="open">
-        <el-form labelPosition="left" ref="editForm" :model="user" class="edit-from">
+        <el-form labelPosition="left" ref="editForm" :model="user" class="edit-from" :rules="userRules">
             <el-row :gutter="20" type="flex" justify="center">
                 <el-col :pull="2" :span="8">
-                    <el-form-item label-width="80px" label="姓名">
+                    <el-form-item label-width="80px" label="姓名" prop="name">
                         <el-input v-model="user.name" :disabled=isEdit></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="8">
-                    <el-form-item label-width="80px" label="账号">
+                    <el-form-item label-width="80px" label="账号" prop="account">
                         <el-input v-model="user.account" :disabled=isEdit></el-input>
                     </el-form-item>
                 </el-col>
@@ -16,13 +16,16 @@
 
             <el-row :gutter="20" type="flex" justify="center">
                 <el-col :pull="2" :span="8">
-                    <el-form-item label-width="80px" label="性别">
-                        <el-input v-model="user.sex"></el-input>
+                    <el-form-item label-width="80px" label="性别" prop="sex">
+                        <el-radio-group v-model="user.sex">
+                            <el-radio label="1">男</el-radio>
+                            <el-radio label="0">女</el-radio>
+                        </el-radio-group>
                     </el-form-item>
                 </el-col>
                 <el-col :span="8">
-                    <el-form-item label-width="80px" label="年龄">
-                        <el-input v-model="user.age"></el-input>
+                    <el-form-item label-width="80px" label="年龄" prop="age">
+                        <el-input v-model.number="user.age"></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -83,12 +86,56 @@
             }
         },
         data() {
+            var validateAge = (rule, value, callback) => {
+                if (value < 1) {
+                    return callback(new Error('年龄不正确'))
+                }
+                callback()
+            };
+
             return {
                 showEditDialog: false,
                 dialogTitle: '',
                 isEdit: false,
-                user: {}
-            }
+                user: {},
+                userRules: {
+                    age: [{
+                            required: true,
+                            message: '请输入年龄',
+                            trigger: 'blur'
+                        },
+                        {
+                            type: 'number',
+                            message: '年龄必须为数字',
+                            trigger: 'blur'
+                        },
+                        {
+                            validator: validateAge,
+                            trigger: 'blur'
+                        }
+                    ],
+                    sex: [{
+                        required: true,
+                        message: '请选择性别',
+                        trigger: 'change'
+                    }],
+                    name: [{
+                        required: true,
+                        message: '请输入名字',
+                        trigger: 'blur'
+                    }],
+                    account: [{
+                        required: true,
+                        message: '请输入账号',
+                        trigger: 'blur'
+                    },{
+                        min: 4,
+                        max: 18,
+                        message: '账号长度必须大于5小于18',
+                        trigger: 'blur'
+                    }]
+                }
+                }
         },
         watch: {
             showDialog: {
@@ -120,23 +167,28 @@
                 }
             },
             close() {
+                 this.$refs['editForm'].resetFields()
                 this.user = {}
                 this.$emit('update:showDialog', false)
                 this.$emit('update:id', '')
             },
-            async onSave() {
-                let ret;
-                if (!this.id || this.id === '') {
-                    ret = await addUser(this.user)
-                } else {
-                    ret = await editUser(this.id, this.user)
-                }
+             onSave() {
+                this.$refs['editForm'].validate(async (valid) => { 
+                    if(valid){
+                    let ret;
+                    if (!this.id || this.id === '') {
+                        ret = await addUser(this.user)
+                    } else {
+                        ret = await editUser(this.id, this.user)
+                    }
 
-                if (ret && ret.code === 200) {
-                    this.$message.success('保存成功')
-                    this.$emit('refresh')
-                    this.onClose()
-                }
+                    if (ret && ret.code === 200) {
+                        this.$message.success('保存成功')
+                        this.$emit('refresh')
+                        this.onClose()
+                    }
+                    }
+                })
             },
             onClose() {
                 this.showEditDialog = false

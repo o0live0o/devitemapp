@@ -13,12 +13,10 @@
                 <el-table-column label="角色名称" prop="roleName"></el-table-column>
                 <el-table-column label="备注"></el-table-column>
                 <el-table-column label="操作">
-                    <template>
-                        
-                        <el-button type="primary" icon="el-icon-edit"></el-button>
-                        <el-button type="primary" icon="el-icon-edit"></el-button>
-                           <el-button type="primary" icon="el-icon-edit"></el-button>
-                      
+                    <template slot-scope="scope">
+                        <el-button type="primary" @click="edit(scope.row.id)"><i class="el-icon-edit-outline"></i></el-button>
+                        <el-button type="success" @click="test()"><i class="el-icon-view"></i></el-button>
+                        <el-button type="danger" @click="deleteInfo(scope.row.id)"><i class="el-icon-delete"></i></el-button>     
                     </template>
                 </el-table-column>
             </el-table>
@@ -41,9 +39,8 @@
         },
         methods: {
             async getRoles () {
-                let roles = await getRoles(20,1)
-                this.roles = roles
-                console.log(roles)
+                let ret = await getRoles(20,1)
+                this.roles = ret.data
             }
         }
     }

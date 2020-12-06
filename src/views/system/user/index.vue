@@ -22,7 +22,16 @@
             </el-popover>
           </template>
         </el-table-column>
-        <el-table-column label="性别" prop="sex"></el-table-column>
+        <el-table-column label="性别">
+          <template slot-scope="scope">
+            <template v-if="scope.row.sex == 1">
+                <el-button type="primary" icon="el-icon-male" size="mini" plain circle></el-button>
+            </template>
+            <template v-else>
+                <el-button type="danger" icon="el-icon-female" size="mini" plain circle></el-button>
+            </template>
+          </template>
+        </el-table-column>
         <el-table-column label="年龄" prop="age"></el-table-column>
         <el-table-column label="电话" prop="phone"></el-table-column>
         <el-table-column label="状态">
@@ -33,9 +42,9 @@
         </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-                <el-button type="primary" @click="edit(scope.row.id)"><i class="el-icon-edit-outline"></i></el-button>
+                <el-button type="primary" @click="edit(String(scope.row.id))"><i class="el-icon-edit-outline"></i></el-button>
                 <el-button type="success" @click="test()"><i class="el-icon-view"></i></el-button>
-                <el-button type="danger" @click="deleteInfo(scope.row.id)"><i class="el-icon-delete"></i></el-button>     
+                <el-button slot="reference" type="danger" @click="deleteInfo(String(scope.row.id),scope.row.userName)"><i class="el-icon-delete"></i></el-button>     
           </template>
         </el-table-column>
       </el-table>
@@ -79,12 +88,21 @@
         this.dialogProp.id = id
         this.dialogProp.showEditDialog = true
       },
-      async deleteInfo (id) {
-        let ret = await deleteUser(id)
-        if(ret && ret.code === 200){
+      deleteInfo (id,name) {
+        this.$confirm('确定删除用户 '+name+' 吗?','提示',{
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(async ()=>{
+          let ret = await deleteUser(id)
+          if(ret && ret.code === 200){
             this.$message.success('删除成功')
             this.getUsers()
-        }
+          }
+        }).catch(() => {
+          this.$message.info('取消删除')
+        })
+        
       },
       addUser () {
         this.dialogProp.id = ''

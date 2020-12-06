@@ -53,8 +53,8 @@
         <el-card class="nav-head">
           <el-breadcrumb separator-class="el-icon-arrow-right">
             <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
-            <el-breadcrumb-item>人员管理</el-breadcrumb-item>
-            <el-breadcrumb-item>人员列表</el-breadcrumb-item>
+            <!-- <el-breadcrumb-item>人员管理</el-breadcrumb-item>
+            <el-breadcrumb-item>人员列表</el-breadcrumb-item> -->
           </el-breadcrumb>
         </el-card>
         <router-view></router-view>
@@ -65,7 +65,7 @@
 <script>
   import {
     getMenus
-  } from '_api/menu';
+  } from '_api/rbac';
   export default {
     data() {
       return {

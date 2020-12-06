@@ -2,10 +2,11 @@ import axios from 'axios'
 import router from "../router";
 import { Message } from 'element-ui'
 
-axios.defaults.baseURL = 'http://81.68.122.9:8601';
+// axios.defaults.baseURL = 'http://81.68.122.9:8601';
 
 const service = axios.create({
-    baseURL: 'http://81.68.122.9:8601'
+    // baseURL: 'http://81.68.122.9:8601'
+    baseURL: 'http://localhost:5000/'
 })
 
 //请求拦截器
